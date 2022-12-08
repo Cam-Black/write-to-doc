@@ -1,6 +1,5 @@
 package com.virginmoney.uk.writer;
 
-import com.virginmoney.uk.template.Person;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -14,27 +13,24 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-public class PersonToFile implements TemplateToFileMethods<Person> {
+public class ObjectToFile<T> {
 	private final Logger LOGGER = LogManager.getLogger();
 	private final Path path;
 	
-	public PersonToFile() {
+	public ObjectToFile() {
 		super();
 		path = Path.of("output.docx");
 	}
 	
-	@Override
-	public XWPFDocument createDoc() {
-		return new XWPFDocument();
-	}
-	
-	@Override
-	public void populateAndSaveDoc(List<Person> people) {
-		try (XWPFDocument doc = this.createDoc(); OutputStream out = Files.newOutputStream(path)) {
+	public void populateAndSaveDoc(List<T> objects) {
+		try (XWPFDocument doc = new XWPFDocument(); OutputStream out = Files.newOutputStream(path)) {
+			LOGGER.info("Creating document...");
 			XWPFParagraph para = doc.createParagraph();
 			XWPFRun run = para.createRun();
-			run.setText(convertObjToString(people));
+			run.setText(convertObjToString(objects));
+			LOGGER.info("Writing to document...");
 			doc.write(out);
+			LOGGER.info("Document created.");
 		} catch (FileNotFoundException fnfe) {
 			LOGGER.error("File not found!");
 		} catch (IOException ioe) {
@@ -42,8 +38,7 @@ public class PersonToFile implements TemplateToFileMethods<Person> {
 		}
 	}
 	
-	@Override
-	public String convertObjToString(List<Person> obj) {
+	public String convertObjToString(List<T> obj) {
 		StringBuilder sb = new StringBuilder();
 		obj.forEach(el -> {
 			sb.append(el.toString());
