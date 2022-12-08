@@ -11,11 +11,11 @@ public class Person {
 	public Person() {
 	}
 	
-	public Person(String firstName, String lastName, LocalDate age) {
+	public Person(String firstName, String lastName, LocalDate dob) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.dob = age;
+		this.dob = dob;
 	}
 	
 	public String getFirstName() {
