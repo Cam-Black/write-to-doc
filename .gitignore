@@ -34,5 +34,7 @@ build/
 ### Mac OS ###
 .DS_Store
 
-### Log Files ###
+### Generated Files ###
 *.log
+*.doc
+*.docx
