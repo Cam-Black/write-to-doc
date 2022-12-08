@@ -47,7 +47,7 @@ public class Person {
 		return "Person [" +
 				"first name: " + this.getFirstName() +
 				", last name: " + this.getLastName() +
-				", age=" + this.getDob() +
+				", dob: " + this.getDob() +
 				"]";
 	}
 }
