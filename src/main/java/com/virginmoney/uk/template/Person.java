@@ -1,7 +1,16 @@
 package com.virginmoney.uk.template;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.time.LocalDate;
 
+@EqualsAndHashCode
+@Getter
+@Setter
+@ToString
 public class Person {
 	
 	private String firstName;
@@ -16,38 +25,5 @@ public class Person {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dob = dob;
-	}
-	
-	public String getFirstName() {
-		return firstName;
-	}
-	
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	
-	public String getLastName() {
-		return lastName;
-	}
-	
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	
-	public LocalDate getDob() {
-		return dob;
-	}
-	
-	public void setDob(LocalDate dob) {
-		this.dob = dob;
-	}
-	
-	@Override
-	public String toString() {
-		return "Person [" +
-				"first name: " + this.getFirstName() +
-				", last name: " + this.getLastName() +
-				", dob: " + this.getDob() +
-				"]";
 	}
 }
