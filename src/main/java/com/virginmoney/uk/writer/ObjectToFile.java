@@ -11,9 +11,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class ObjectToFile<T> {
     private final Logger LOGGER = LogManager.getLogger();
@@ -21,7 +21,7 @@ public class ObjectToFile<T> {
 
     public ObjectToFile() {
         super();
-        path = Path.of("output.docx");
+        path = Paths.get("output.docx");
     }
 
     public int populateAndSaveDoc(List<T> objects) {
