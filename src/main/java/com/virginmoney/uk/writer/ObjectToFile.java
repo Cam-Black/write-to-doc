@@ -17,16 +17,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ObjectToFile<T> {
     private final Logger LOGGER = LogManager.getLogger();
-    private final Path path;
+    private final Path OUT;
 
     public ObjectToFile() {
         super();
-        path = Paths.get("output.docx");
+        OUT = Paths.get("output.docx");
     }
 
     public int populateAndSaveDoc(List<T> objects) {
         AtomicInteger paraCount = new AtomicInteger();
-        try (XWPFDocument doc = new XWPFDocument(); OutputStream out = Files.newOutputStream(path)) {
+        try (XWPFDocument doc = new XWPFDocument(); OutputStream out = Files.newOutputStream(OUT)) {
             LOGGER.info("Document Created");
             objects.forEach(el -> {
                 LOGGER.info("Writing to document...");
