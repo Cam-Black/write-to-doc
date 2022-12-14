@@ -6,12 +6,21 @@ import com.virginmoney.uk.utils.FileWriter;
 
 public class PersonToFile implements ServiceMethods<Person> {
 
+    private final FileWriter FILE_WRITER;
+    private final FileReader FILE_READER;
+
+    public PersonToFile() {
+        super();
+        FILE_WRITER = new FileWriter();
+        FILE_READER = new FileReader();
+    }
+
     @Override
     public String replacePlaceholdersInFile(Person person) {
         String firstName = "FIRST_NAME";
         String lastName = "LAST_NAME";
         String dob = "DOB";
-        String text = FileReader.readDoc();
+        String text = FILE_READER.readDoc();
         assert text != null;
         if (text.contains(firstName)) {
             text = text.replace(firstName, person.getFirstName());
@@ -22,7 +31,7 @@ public class PersonToFile implements ServiceMethods<Person> {
         if (text.contains(dob)) {
             text = text.replace(dob, person.getDob().toString());
         }
-        FileWriter.populateDoc(text);
+        FILE_WRITER.populateDoc(text);
         return text;
     }
 }
