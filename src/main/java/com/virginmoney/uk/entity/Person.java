@@ -1,4 +1,4 @@
-package com.virginmoney.uk.template;
+package com.virginmoney.uk.entity;
 
 import lombok.*;
 
