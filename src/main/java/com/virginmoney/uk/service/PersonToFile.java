@@ -4,23 +4,14 @@ import com.virginmoney.uk.entity.Person;
 import com.virginmoney.uk.utils.FileReader;
 import com.virginmoney.uk.utils.FileWriter;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 public class PersonToFile implements ServiceMethods<Person> {
-    private final Path IN;
-
-    public PersonToFile(String in) {
-        super();
-        IN = Paths.get(in);
-    }
 
     @Override
     public String replacePlaceholdersInFile(Person person) {
         String firstName = "FIRST_NAME";
         String lastName = "LAST_NAME";
         String dob = "DOB";
-        String text = FileReader.readDoc(IN);
+        String text = FileReader.readDoc();
         assert text != null;
         if (text.contains(firstName)) {
             text = text.replace(firstName, person.getFirstName());
