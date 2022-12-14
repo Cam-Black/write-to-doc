@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public class Runner {
     public static void main(String[] args) {
-        PersonToFile tf = new PersonToFile("input.docx");
+        PersonToFile tf = new PersonToFile();
         Person p = new Person("John", "Doe", LocalDate.of(2000, 5, 23));
         tf.replacePlaceholdersInFile(p);
     }
