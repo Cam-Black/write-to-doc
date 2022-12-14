@@ -14,7 +14,7 @@ import java.util.List;
 public class FileReader {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static String readFile(Path in) {
+    public static String readDoc(Path in) {
         try (XWPFDocument doc = new XWPFDocument(Files.newInputStream(in))) {
             List<XWPFParagraph> lines = doc.getParagraphs();
             StringBuilder sb = new StringBuilder();
