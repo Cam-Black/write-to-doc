@@ -9,12 +9,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class FileReader {
     private static final Logger LOGGER = LogManager.getLogger();
+    private static Path in;
 
-    public static String readDoc(Path in) {
+    public FileReader() {
+        super();
+        in = Paths.get("input.docx");
+    }
+
+    public static String readDoc() {
         try (XWPFDocument doc = new XWPFDocument(Files.newInputStream(in))) {
             List<XWPFParagraph> lines = doc.getParagraphs();
             StringBuilder sb = new StringBuilder();
