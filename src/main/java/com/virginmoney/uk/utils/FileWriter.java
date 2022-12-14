@@ -14,10 +14,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileWriter {
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static final Path OUT = Paths.get("output.docx");
+    private final Logger LOGGER = LogManager.getLogger();
+    private final Path OUT;
 
-    public static int populateDoc(String text) {
+    public FileWriter() {
+        super();
+        OUT = Paths.get("output.docx");
+    }
+
+    public FileWriter(String out) {
+        OUT = Paths.get(out);
+    }
+
+    public int populateDoc(String text) {
         int count = 0;
         try (XWPFDocument doc = new XWPFDocument();
              OutputStream out = Files.newOutputStream(OUT)) {

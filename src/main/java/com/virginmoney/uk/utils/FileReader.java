@@ -13,16 +13,21 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class FileReader {
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static Path in;
+    private final Logger LOGGER = LogManager.getLogger();
+    private final Path IN;
 
     public FileReader() {
         super();
-        in = Paths.get("input.docx");
+        IN = Paths.get("input.docx");
     }
 
-    public static String readDoc() {
-        try (XWPFDocument doc = new XWPFDocument(Files.newInputStream(in))) {
+    public FileReader(String in) {
+        super();
+        IN = Paths.get(in);
+    }
+
+    public String readDoc() {
+        try (XWPFDocument doc = new XWPFDocument(Files.newInputStream(IN))) {
             List<XWPFParagraph> lines = doc.getParagraphs();
             StringBuilder sb = new StringBuilder();
             LOGGER.info("Reading file...");
