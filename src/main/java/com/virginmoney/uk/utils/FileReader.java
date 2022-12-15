@@ -2,12 +2,13 @@ package com.virginmoney.uk.utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.EmptyFileException;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -43,8 +44,10 @@ public class FileReader {
             LOGGER.info("FILE END");
             LOGGER.info("===========\n");
             return sb.toString();
-        } catch (FileNotFoundException fnfe) {
-            LOGGER.error("File not found! Please check file name is correct!");
+        } catch (NoSuchFileException nfe) {
+            LOGGER.error("File not found! Please check file path and name is correct!");
+        } catch (EmptyFileException efe) {
+            LOGGER.error("The file is empty, no content to read");
         } catch (IOException ioe) {
             LOGGER.error(ioe);
         }
