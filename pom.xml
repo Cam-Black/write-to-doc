@@ -51,6 +51,11 @@
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>4.8.0</version>
         </dependency>
+        <dependency>
+            <groupId>nl.jqno.equalsverifier</groupId>
+            <artifactId>equalsverifier</artifactId>
+            <version>3.11.1</version>
+        </dependency>
 
     </dependencies>
 
