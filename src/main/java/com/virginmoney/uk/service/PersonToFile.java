@@ -3,7 +3,9 @@ package com.virginmoney.uk.service;
 import com.virginmoney.uk.entity.Person;
 import com.virginmoney.uk.utils.FileReader;
 import com.virginmoney.uk.utils.FileWriter;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class PersonToFile implements ServiceMethods<Person> {
 
     private final FileWriter FILE_WRITER;
