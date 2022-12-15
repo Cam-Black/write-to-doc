@@ -36,5 +36,5 @@ build/
 
 ### Generated Files ###
 *.log
-*.doc
-*.docx
+input.docx
+output.docx
