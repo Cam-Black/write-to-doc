@@ -1,26 +1,40 @@
 package com.virginmoney.uk.service;
 
 import com.virginmoney.uk.entity.Person;
+import com.virginmoney.uk.utils.FileReader;
+import com.virginmoney.uk.utils.FileWriter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
+
+import static org.mockito.ArgumentMatchers.anyString;
+
 @ExtendWith(MockitoExtension.class)
 public class PersonToFileTest {
     @Mock
+    FileWriter fileWriter;
+    @Mock
+    FileReader fileReader;
+    @InjectMocks
     PersonToFile toFile;
 
     @Test
     public void helloJohnDoe() {
-        Person person = new Person();
+        Person person = new Person("John", "Doe", LocalDate.of(2000, 5, 23));
         String text = "Hello John Doe. Your date of birth is 2000-05-23.";
 
-        Mockito.when(toFile.replacePlaceholdersInFile(person)).thenReturn(text);
+        Mockito.when(fileReader.readDoc()).thenReturn(text);
+        Mockito.when(fileWriter.populateDoc(anyString())).thenReturn(1);
 
         Assertions.assertEquals(text, toFile.replacePlaceholdersInFile(person));
-        Mockito.verify(toFile, Mockito.times(1)).replacePlaceholdersInFile(person);
+
+        Mockito.verify(fileReader, Mockito.times(1)).readDoc();
+        Mockito.verify(fileWriter, Mockito.times(1)).populateDoc(text);
     }
 }
