@@ -27,14 +27,15 @@ public class PersonToFileTest {
     @Test
     public void helloJohnDoe() {
         Person person = new Person("John", "Doe", LocalDate.of(2000, 5, 23));
-        String text = "Hello John Doe. Your date of birth is 2000-05-23.";
+        String text = "Hello FIRST_NAME LAST_NAME. Your date of birth is DOB.";
+        String expected = "Hello John Doe. Your date of birth is 2000-05-23.";
 
         Mockito.when(fileReader.readDoc()).thenReturn(text);
         Mockito.when(fileWriter.populateDoc(anyString())).thenReturn(1);
 
-        Assertions.assertEquals(text, toFile.replacePlaceholdersInFile(person));
+        Assertions.assertEquals(expected, toFile.replacePlaceholdersInFile(person));
 
         Mockito.verify(fileReader, Mockito.times(1)).readDoc();
-        Mockito.verify(fileWriter, Mockito.times(1)).populateDoc(text);
+        Mockito.verify(fileWriter, Mockito.times(1)).populateDoc(expected);
     }
 }
