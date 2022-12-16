@@ -31,7 +31,7 @@ public class PersonToFileTest {
         String expected = "Hello John Doe. Your date of birth is 2000-05-23.";
 
         Mockito.when(fileReader.readDoc()).thenReturn(text);
-        Mockito.when(fileWriter.populateDoc(anyString())).thenReturn(1);
+        Mockito.when(fileWriter.populateDoc(anyString())).thenReturn(expected);
 
         Assertions.assertEquals(expected, toFile.replacePlaceholdersInFile(person));
 
