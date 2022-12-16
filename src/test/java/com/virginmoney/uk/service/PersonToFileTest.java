@@ -26,7 +26,10 @@ public class PersonToFileTest {
 
     @Test
     public void helloJohnDoe() {
-        Person person = new Person("John", "Doe", LocalDate.of(2000, 5, 23));
+        Person person = new Person();
+        person.setFirstName("John");
+        person.setLastName("Doe");
+        person.setDob(LocalDate.of(2000, 5, 23));
         String text = "Hello FIRST_NAME LAST_NAME. Your date of birth is DOB.";
         String expected = "Hello John Doe. Your date of birth is 2000-05-23.";
 
