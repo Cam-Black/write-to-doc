@@ -6,7 +6,6 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -26,26 +25,25 @@ public class FileWriter {
         OUT = Paths.get(out);
     }
 
-    public int populateDoc(String text) {
-        int count = 0;
+    public String populateDoc(String text) {
         try (XWPFDocument doc = new XWPFDocument();
              OutputStream out = Files.newOutputStream(OUT)) {
+            StringBuilder sb = new StringBuilder();
             LOGGER.info("Document Created.");
             String[] lines = text.split("\n");
-            for (String p : lines) {
+            for (String line : lines) {
                 XWPFParagraph para = doc.createParagraph();
                 XWPFRun run = para.createRun();
-                run.setText(p);
-                count++;
+                run.setText(line);
+                sb.append(line);
+                sb.append("\n");
             }
             LOGGER.info("Document saved.");
             doc.write(out);
-            return count;
-        } catch (FileNotFoundException fnfe) {
-            LOGGER.error("File not found!");
+            return sb.toString();
         } catch (IOException ioe) {
             LOGGER.error(ioe);
         }
-        return count;
+        return null;
     }
 }
