@@ -16,34 +16,31 @@ import java.nio.file.Paths;
 public class WordDocumentWriter {
     private final Logger LOGGER = LogManager.getLogger();
     private final Path OUT;
-    private final DocumentFactory DOC;
 
     public WordDocumentWriter() {
         super();
         OUT = Paths.get("output.docx");
-        DOC = new DocumentFactory();
     }
 
-    public WordDocumentWriter(String out, DocumentFactory documentFactory) {
+    public WordDocumentWriter(String out) {
         OUT = Paths.get(out);
-        DOC = documentFactory;
     }
 
     public String populateDoc(String text) {
-        try (XWPFDocument doc = DOC.createDoc();
+        try (XWPFDocument doc = new XWPFDocument();
              OutputStream out = Files.newOutputStream(OUT)) {
             StringBuilder sb = new StringBuilder();
             LOGGER.info("Document Created.");
             String[] lines = text.split("\n");
             for (String line : lines) {
-                XWPFParagraph para = DOC.createParagraph(doc);
-                XWPFRun run = DOC.createRun(para);
+                XWPFParagraph para = doc.createParagraph();
+                XWPFRun run = para.createRun();
                 run.setText(line);
                 sb.append(line);
                 sb.append("\n");
             }
             LOGGER.info("Document saved.");
-            DOC.writeDocument(doc, out);
+            doc.write(out);
             return sb.toString();
         } catch (IOException ioe) {
             LOGGER.error(ioe);
