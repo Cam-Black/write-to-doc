@@ -6,40 +6,44 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 
+import javax.print.Doc;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class FileWriter {
+public class WordDocumentWriter {
     private final Logger LOGGER = LogManager.getLogger();
     private final Path OUT;
+    private final DocumentFactory DOC;
 
-    public FileWriter() {
+    public WordDocumentWriter() {
         super();
         OUT = Paths.get("output.docx");
+        DOC = new DocumentFactory();
     }
 
-    public FileWriter(String out) {
+    public WordDocumentWriter(String out, DocumentFactory documentFactory) {
         OUT = Paths.get(out);
+        DOC = documentFactory;
     }
 
     public String populateDoc(String text) {
-        try (XWPFDocument doc = new XWPFDocument();
+        try (XWPFDocument doc = DOC.createDoc();
              OutputStream out = Files.newOutputStream(OUT)) {
             StringBuilder sb = new StringBuilder();
             LOGGER.info("Document Created.");
             String[] lines = text.split("\n");
             for (String line : lines) {
-                XWPFParagraph para = doc.createParagraph();
-                XWPFRun run = para.createRun();
+                XWPFParagraph para = DOC.createParagraph(doc);
+                XWPFRun run = DOC.createRun(para);
                 run.setText(line);
                 sb.append(line);
                 sb.append("\n");
             }
             LOGGER.info("Document saved.");
-            doc.write(out);
+            DOC.writeDocument(doc, out);
             return sb.toString();
         } catch (IOException ioe) {
             LOGGER.error(ioe);

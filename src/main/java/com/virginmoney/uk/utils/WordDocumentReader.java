@@ -13,16 +13,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class FileReader {
+public class WordDocumentReader {
     private final Logger LOGGER = LogManager.getLogger();
     private final Path IN;
 
-    public FileReader() {
+    public WordDocumentReader() {
         super();
         IN = Paths.get("input.docx");
     }
 
-    public FileReader(String in) {
+    public WordDocumentReader(String in) {
         super();
         IN = Paths.get(in);
     }
