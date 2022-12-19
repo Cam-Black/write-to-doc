@@ -15,22 +15,25 @@ import java.util.List;
 
 public class WordDocumentReader {
     private final Logger LOGGER = LogManager.getLogger();
+    private final WordDocumentMaker MAKER;
     private final Path IN;
 
     public WordDocumentReader() {
         super();
         IN = Paths.get("input.docx");
+        MAKER = new WordDocumentMaker();
     }
 
-    public WordDocumentReader(String in) {
+    public WordDocumentReader(String in, WordDocumentMaker maker) {
         super();
         IN = Paths.get(in);
+        MAKER = maker;
     }
 
-    public String readDoc() {
-        try (XWPFDocument doc = new XWPFDocument(Files.newInputStream(IN))) {
+    public StringBuilder readDoc() {
+        StringBuilder sb = new StringBuilder();
+        try (XWPFDocument doc = MAKER.newDocument(IN)) {
             List<XWPFParagraph> lines = doc.getParagraphs();
-            StringBuilder sb = new StringBuilder();
             LOGGER.info("Reading file...");
             lines.forEach(el -> {
                 sb.append(el.getText());
@@ -38,12 +41,12 @@ public class WordDocumentReader {
             });
             LOGGER.info("===========");
             LOGGER.info("FILE START");
-            LOGGER.info("===========");
+            LOGGER.info("===========\n");
             LOGGER.info(sb);
             LOGGER.info("===========");
             LOGGER.info("FILE END");
             LOGGER.info("===========\n");
-            return sb.toString();
+            return sb;
         } catch (NoSuchFileException nfe) {
             LOGGER.error("File not found! Please check file path and name is correct!");
         } catch (EmptyFileException efe) {
@@ -51,6 +54,6 @@ public class WordDocumentReader {
         } catch (IOException ioe) {
             LOGGER.error(ioe);
         }
-        return null;
+        return sb;
     }
 }
