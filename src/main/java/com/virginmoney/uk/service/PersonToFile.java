@@ -1,39 +1,35 @@
 package com.virginmoney.uk.service;
 
 import com.virginmoney.uk.entity.Person;
-import com.virginmoney.uk.utils.FileReader;
-import com.virginmoney.uk.utils.FileWriter;
-import lombok.AllArgsConstructor;
+import com.virginmoney.uk.utils.PersonPlaceholders;
+import com.virginmoney.uk.utils.WordDocumentReader;
+import org.apache.commons.text.StringSubstitutor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-@AllArgsConstructor
-public class PersonToFile implements ServiceMethods<Person> {
+import java.util.Map;
 
-    private final FileWriter FILE_WRITER;
-    private final FileReader FILE_READER;
+public class PersonToFile {
+    private final Logger LOGGER = LogManager.getLogger();
+    private final WordDocumentReader READER;
 
     public PersonToFile() {
         super();
-        FILE_WRITER = new FileWriter();
-        FILE_READER = new FileReader();
+        READER = new WordDocumentReader();
     }
 
-    @Override
-    public String replacePlaceholdersInFile(Person person) {
-        String firstName = "FIRST_NAME";
-        String lastName = "LAST_NAME";
-        String dob = "DOB";
-        String text = FILE_READER.readDoc();
-        assert text != null;
-        if (text.contains(firstName)) {
-            text = text.replace(firstName, person.getFirstName());
-        }
-        if (text.contains(lastName)) {
-            text = text.replace(lastName, person.getLastName());
-        }
-        if (text.contains(dob)) {
-            text = text.replace(dob, person.getDob().toString());
-        }
-        FILE_WRITER.populateDoc(text);
+    public PersonToFile(WordDocumentReader reader) {
+        super();
+        READER = reader;
+    }
+
+    public StringBuilder replacePlaceholdersInText(Person person) {
+        PersonPlaceholders placeholders = new PersonPlaceholders();
+        StringBuilder text = READER.readDoc();
+        Map<String, String> toReplace = placeholders.getPlaceholders(person);
+        StringSubstitutor sub = new StringSubstitutor(toReplace);
+        text.replace(0, text.length(), sub.replace(text));
+        LOGGER.info(text);
         return text;
     }
 }
