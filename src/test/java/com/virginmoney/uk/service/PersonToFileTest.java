@@ -1,44 +1,32 @@
 package com.virginmoney.uk.service;
 
 import com.virginmoney.uk.entity.Person;
-import com.virginmoney.uk.utils.FileReader;
-import com.virginmoney.uk.utils.FileWriter;
-import org.junit.jupiter.api.Assertions;
+import com.virginmoney.uk.utils.WordDocumentReader;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 public class PersonToFileTest {
-    @Mock
-    FileWriter fileWriter;
-    @Mock
-    FileReader fileReader;
-    @InjectMocks
-    PersonToFile toFile;
 
     @Test
     public void helloJohnDoe() {
+        WordDocumentReader reader = mock(WordDocumentReader.class);
+        PersonToFile toFile = new PersonToFile(reader);
+
         Person person = new Person();
         person.setFirstName("John");
         person.setLastName("Doe");
         person.setDob(LocalDate.of(2000, 5, 23));
-        String text = "Hello FIRST_NAME LAST_NAME. Your date of birth is DOB.";
+
+        StringBuilder text = new StringBuilder("Hello ${first_name} ${last_name}. Your date of birth is ${dob}.");
         String expected = "Hello John Doe. Your date of birth is 2000-05-23.";
+        when(reader.readDoc()).thenReturn(text);
 
-        Mockito.when(fileReader.readDoc()).thenReturn(text);
-        Mockito.when(fileWriter.populateDoc(anyString())).thenReturn(expected);
+        assertEquals(expected, toFile.replacePlaceholdersInText(person).toString());
 
-        Assertions.assertEquals(expected, toFile.replacePlaceholdersInFile(person));
-
-        Mockito.verify(fileReader, Mockito.times(1)).readDoc();
-        Mockito.verify(fileWriter, Mockito.times(1)).populateDoc(expected);
+        verify(reader).readDoc();
     }
 }
