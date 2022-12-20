@@ -1,4 +1,4 @@
-package com.virginmoney.uk.utils;
+package com.virginmoney.uk.utils.worddocument;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

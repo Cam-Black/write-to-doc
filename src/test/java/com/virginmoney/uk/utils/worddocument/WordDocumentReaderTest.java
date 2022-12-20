@@ -1,5 +1,7 @@
-package com.virginmoney.uk.utils;
+package com.virginmoney.uk.utils.worddocument;
 
+import com.virginmoney.uk.utils.worddocument.WordDocumentMaker;
+import com.virginmoney.uk.utils.worddocument.WordDocumentReader;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

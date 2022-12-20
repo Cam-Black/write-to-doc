@@ -2,8 +2,8 @@ package com.virginmoney.uk.service;
 
 import com.virginmoney.uk.entity.Person;
 import com.virginmoney.uk.utils.PersonPlaceholders;
-import com.virginmoney.uk.utils.WordDocumentReader;
-import com.virginmoney.uk.utils.WordDocumentWriter;
+import com.virginmoney.uk.utils.worddocument.WordDocumentReader;
+import com.virginmoney.uk.utils.worddocument.WordDocumentWriter;
 import org.apache.commons.text.StringSubstitutor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -1,5 +1,7 @@
-package com.virginmoney.uk.utils;
+package com.virginmoney.uk.utils.worddocument;
 
+import com.virginmoney.uk.utils.worddocument.WordDocumentMaker;
+import com.virginmoney.uk.utils.worddocument.WordDocumentWriter;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
