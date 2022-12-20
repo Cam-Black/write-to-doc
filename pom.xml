@@ -62,7 +62,18 @@
             <artifactId>commons-text</artifactId>
             <version>1.10.0</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.jodconverter/jodconverter-core -->
+        <dependency>
+            <groupId>org.jodconverter</groupId>
+            <artifactId>jodconverter-core</artifactId>
+            <version>4.4.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jodconverter/jodconverter-local -->
+        <dependency>
+            <groupId>org.jodconverter</groupId>
+            <artifactId>jodconverter-local</artifactId>
+            <version>4.4.4</version>
+        </dependency>
     </dependencies>
 
     <properties>
