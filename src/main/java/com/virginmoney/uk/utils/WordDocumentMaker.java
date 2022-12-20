@@ -9,32 +9,20 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class WordDocumentMaker {
     private final Logger LOGGER = LogManager.getLogger();
-    private final Path OUT;
 
     public WordDocumentMaker() {
         super();
-        OUT = Paths.get("output.txt");
-    }
-
-    public WordDocumentMaker(String out) {
-        OUT = Paths.get(out);
     }
 
     public XWPFDocument newDocument() {
         return new XWPFDocument();
     }
 
-    public XWPFDocument newDocument(Path in) {
-        try {
-            return new XWPFDocument(Files.newInputStream(in));
-        } catch (IOException e) {
-            LOGGER.error(e);
-            return null;
-        }
+    public XWPFDocument newDocument(Path in) throws IOException {
+        return new XWPFDocument(Files.newInputStream(in));
     }
 
     public XWPFParagraph newParagraph(XWPFDocument doc) {
