@@ -7,54 +7,70 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 
-import java.io.OutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class WordDocumentWriterTest {
-    //    @Test
-//    void testFileContainsAParagraph() {
-//        FileWriter fileWriter = new FileWriter("src/test/resources/outputTest.docx");
-//        String text = "Hello World.\n";
-//
-//        Assertions.assertEquals(text, fileWriter.populateDoc(text));
-//    }
+
     @Mock
-    DocumentFactory documentFactory;
-    @Mock
-    XWPFDocument doc;
-    @Mock
-    XWPFParagraph paragraph;
-    @Mock
-    XWPFRun run;
-    @Mock
-    OutputStream out;
+    WordDocumentMaker maker;
 
     @Test
-//    @MockitoSettings(strictness = Strictness.LENIENT)
-    void testTextReturnsHello() {
-        String path = "src/test/resources/outputTest.docx";
-        WordDocumentWriter wordDocumentWriter = new WordDocumentWriter(path, documentFactory);
-        String text = "Hello\n";
+    void testPopulateDocWithHelloWorld() {
+        XWPFDocument doc = mock(XWPFDocument.class);
+        XWPFParagraph para = mock(XWPFParagraph.class);
+        XWPFRun run = mock(XWPFRun.class);
 
-        Mockito.when(documentFactory.createDoc()).thenReturn(any(XWPFDocument.class));
-        Mockito.when(documentFactory.createParagraph(doc)).thenReturn(any(XWPFParagraph.class));
-        Mockito.when(documentFactory.createRun(paragraph)).thenReturn(any(XWPFRun.class));
-        Mockito.when(documentFactory.writeDocument(doc, out)).thenReturn(true);
+        String strOut = "output_test.docx";
+        Path out = Paths.get(strOut);
+        WordDocumentWriter writer = new WordDocumentWriter(strOut, maker);
+        StringBuilder text = new StringBuilder("Hello World");
 
-        Assertions.assertEquals(text, wordDocumentWriter.populateDoc((text)));
+        when(maker.newDocument()).thenReturn(doc);
+        when(maker.newParagraph(doc)).thenReturn(para);
+        when(maker.newRun(para)).thenReturn(run);
+        when(maker.writeDocument(doc, out)).thenReturn(true);
 
-        Mockito.verify(documentFactory).createDoc();
-        Mockito.verify(documentFactory).createParagraph(any(XWPFDocument.class));
-        Mockito.verify(documentFactory).createRun(any(XWPFParagraph.class));
-        Mockito.verify(documentFactory).writeDocument(any(XWPFDocument.class), any(OutputStream.class));
+        assertTrue(writer.populateDoc(text));
+
+        verify(maker).newDocument();
+        verify(maker).newParagraph(doc);
+        verify(maker).newRun(para);
+        verify(maker).writeDocument(doc, out);
+    }
+
+    @Test
+    void testIOException() throws IOException {
+        XWPFDocument doc = mock(XWPFDocument.class);
+        XWPFParagraph para = mock(XWPFParagraph.class);
+        XWPFRun run = mock(XWPFRun.class);
+        doc.close();
+
+        String strOut = "output_test.docx";
+        Path out = Paths.get(strOut);
+        WordDocumentWriter writer = new WordDocumentWriter(strOut, maker);
+        StringBuilder text = new StringBuilder("Hello World");
+
+        when(maker.newDocument()).thenReturn(doc);
+        when(maker.newParagraph(doc)).thenReturn(para);
+        when(maker.newRun(para)).thenReturn(run);
+        given(maker.writeDocument(doc, out)).willAnswer(invocationOnMock -> {
+            throw new IOException();
+        });
+
+        assertFalse(writer.populateDoc(text));
+
+        verify(maker).newDocument();
+        verify(maker).newParagraph(doc);
+        verify(maker).newRun(para);
+        verify(maker).writeDocument(doc, out);
     }
 }
