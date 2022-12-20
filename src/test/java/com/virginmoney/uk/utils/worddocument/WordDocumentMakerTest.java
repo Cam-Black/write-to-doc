@@ -22,7 +22,7 @@ public class WordDocumentMakerTest {
     @BeforeEach
     void setup() {
         doc = new XWPFDocument();
-        out = Paths.get("src/test/resources/outputTest.docx");
+        out = Paths.get("src/test/resources/output.docx");
     }
 
     @Test
