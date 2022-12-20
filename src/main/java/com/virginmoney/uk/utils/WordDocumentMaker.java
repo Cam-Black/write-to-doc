@@ -33,9 +33,9 @@ public class WordDocumentMaker {
         return para.createRun();
     }
 
-    public boolean writeDocument(XWPFDocument document) {
+    public boolean writeDocument(XWPFDocument document, Path out) {
         try {
-            document.write(Files.newOutputStream(OUT));
+            document.write(Files.newOutputStream(out));
             return true;
         } catch (IOException e) {
             LOGGER.error(e);
