@@ -6,45 +6,43 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 
-import javax.print.Doc;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class WordDocumentWriter {
     private final Logger LOGGER = LogManager.getLogger();
     private final Path OUT;
+    private final WordDocumentMaker MAKER;
 
     public WordDocumentWriter() {
         super();
         OUT = Paths.get("output.docx");
+        MAKER = new WordDocumentMaker();
     }
 
-    public WordDocumentWriter(String out) {
+    public WordDocumentWriter(String out, WordDocumentMaker maker) {
         OUT = Paths.get(out);
+        MAKER = maker;
     }
 
-    public String populateDoc(String text) {
-        try (XWPFDocument doc = new XWPFDocument();
-             OutputStream out = Files.newOutputStream(OUT)) {
-            StringBuilder sb = new StringBuilder();
-            LOGGER.info("Document Created.");
-            String[] lines = text.split("\n");
+    public boolean populateDoc(StringBuilder text) {
+        try (XWPFDocument doc = MAKER.newDocument()) {
+            String[] lines = text.toString().split("\n");
             for (String line : lines) {
-                XWPFParagraph para = doc.createParagraph();
-                XWPFRun run = para.createRun();
+                XWPFParagraph para = MAKER.newParagraph(doc);
+                XWPFRun run = MAKER.newRun(para);
                 run.setText(line);
-                sb.append(line);
-                sb.append("\n");
             }
-            LOGGER.info("Document saved.");
-            doc.write(out);
-            return sb.toString();
+            MAKER.writeDocument(doc, OUT);
+            return true;
         } catch (IOException ioe) {
             LOGGER.error(ioe);
+            return false;
         }
-        return null;
     }
 }
