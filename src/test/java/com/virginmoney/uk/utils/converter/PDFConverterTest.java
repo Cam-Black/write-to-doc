@@ -25,7 +25,19 @@ public class PDFConverterTest {
     }
 
     @Test
-    void testPDFCreated() {
-        assertTrue(PDFConverter.convertWordToPDF("src/test/resources/inputTest.docx", "src/test/resources/outputTest.pdf"));
+    void testPDFCreated() throws IOException {
+        converter = new PDFConverter(inDoc, outPdf);
+        assertTrue(converter.convertWordToPDF());
+    }
+
+    @Test
+    void testPDFNotCreated() {
+        Document doc = mock(Document.class);
+        converter = new PDFConverter(inDoc, outPdf, doc);
+        doNothing().when(doc).saveToFile(any(OutputStream.class), any(FileFormat.class));
+
+        assertFalse(converter.convertWordToPDF());
+
+        verify(doc).saveToFile(outPdf, FileFormat.PDF);
     }
 }
