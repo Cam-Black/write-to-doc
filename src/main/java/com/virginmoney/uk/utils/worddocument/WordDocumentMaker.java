@@ -1,7 +1,5 @@
 package com.virginmoney.uk.utils.worddocument;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -11,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class WordDocumentMaker {
-    private final Logger LOGGER = LogManager.getLogger();
 
     public WordDocumentMaker() {
         super();
