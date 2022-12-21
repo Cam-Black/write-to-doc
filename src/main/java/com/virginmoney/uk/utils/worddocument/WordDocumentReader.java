@@ -18,12 +18,6 @@ public class WordDocumentReader {
     private final WordDocumentMaker MAKER;
     private final Path IN;
 
-    public WordDocumentReader() {
-        super();
-        IN = Paths.get("input.docx");
-        MAKER = new WordDocumentMaker();
-    }
-
     public WordDocumentReader(String in, WordDocumentMaker maker) {
         super();
         IN = Paths.get(in);
