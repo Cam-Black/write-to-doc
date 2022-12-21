@@ -15,6 +15,12 @@ public class PersonToFile {
     private final WordDocumentReader READER;
     public final WordDocumentWriter WRITER;
 
+    public PersonToFile() {
+        super();
+        READER = new WordDocumentReader();
+        WRITER = new WordDocumentWriter();
+    }
+
     public PersonToFile(WordDocumentReader reader, WordDocumentWriter writer) {
         super();
         READER = reader;
