@@ -16,7 +16,6 @@ public class PDFConverter {
         LOGGER.info("Converting to PDF...");
         doc.saveToFile(out, FileFormat.PDF);
         if (f.isFile()) {
-
             LOGGER.info("Conversion complete.");
             return true;
         }
