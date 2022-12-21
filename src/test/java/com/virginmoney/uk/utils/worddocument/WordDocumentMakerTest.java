@@ -10,8 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WordDocumentMakerTest {
     private final WordDocumentMaker maker = new WordDocumentMaker();
@@ -30,13 +29,14 @@ public class WordDocumentMakerTest {
     }
 
     @Test
-    void writeDocumentTest() {
-        assertTrue(maker.writeDocument(doc, out));
+    void writeDocumentTest() throws IOException {
+        maker.writeDocument(doc, out);
+        assertTrue(Files.isRegularFile(out));
     }
 
     @Test
     void testIOExceptionInWriteDocument() throws IOException {
         doc.close();
-        assertFalse(maker.writeDocument(doc, out));
+        assertThrows(IOException.class, () -> maker.writeDocument(doc, out));
     }
 }
