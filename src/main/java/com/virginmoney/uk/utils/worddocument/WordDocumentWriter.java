@@ -15,6 +15,12 @@ public class WordDocumentWriter {
     private final Path OUT;
     private final WordDocumentMaker MAKER;
 
+    public WordDocumentWriter() {
+        super();
+        OUT = Paths.get("output.docx");
+        MAKER = new WordDocumentMaker();
+    }
+
     public WordDocumentWriter(String out, WordDocumentMaker maker) {
         OUT = Paths.get(out);
         MAKER = maker;
