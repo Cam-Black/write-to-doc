@@ -14,7 +14,6 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -24,27 +23,26 @@ public class WordDocumentWriterTest {
     WordDocumentMaker maker;
 
     @Test
-    void testPopulateDocWithHelloWorld() {
+    void testPopulateDocWithHelloWorld() throws IOException {
         XWPFDocument doc = mock(XWPFDocument.class);
         XWPFParagraph para = mock(XWPFParagraph.class);
         XWPFRun run = mock(XWPFRun.class);
 
         String strOut = "output_test.docx";
-        Path out = Paths.get(strOut);
         WordDocumentWriter writer = new WordDocumentWriter(strOut, maker);
         StringBuilder text = new StringBuilder("Hello World");
 
         when(maker.newDocument()).thenReturn(doc);
         when(maker.newParagraph(doc)).thenReturn(para);
         when(maker.newRun(para)).thenReturn(run);
-        when(maker.writeDocument(doc, out)).thenReturn(true);
+        doNothing().when(maker).writeDocument(any(XWPFDocument.class), any(Path.class));
 
         assertTrue(writer.populateDoc(text));
 
         verify(maker).newDocument();
         verify(maker).newParagraph(doc);
         verify(maker).newRun(para);
-        verify(maker).writeDocument(doc, out);
+        verify(maker).writeDocument(doc, Paths.get(strOut));
     }
 
     @Test
@@ -62,9 +60,7 @@ public class WordDocumentWriterTest {
         when(maker.newDocument()).thenReturn(doc);
         when(maker.newParagraph(doc)).thenReturn(para);
         when(maker.newRun(para)).thenReturn(run);
-        given(maker.writeDocument(doc, out)).willAnswer(invocationOnMock -> {
-            throw new IOException();
-        });
+        doThrow(new IOException()).when(maker).writeDocument(doc, out);
 
         assertFalse(writer.populateDoc(text));
 
