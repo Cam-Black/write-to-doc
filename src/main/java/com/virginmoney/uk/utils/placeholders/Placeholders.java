@@ -1,6 +1,5 @@
-package com.virginmoney.uk.utils;
+package com.virginmoney.uk.utils.placeholders;
 
-import java.util.List;
 import java.util.Map;
 
 public interface Placeholders<T, K, V> {

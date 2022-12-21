@@ -1,7 +1,7 @@
 package com.virginmoney.uk.service;
 
 import com.virginmoney.uk.entity.Person;
-import com.virginmoney.uk.utils.PersonPlaceholders;
+import com.virginmoney.uk.utils.placeholders.PersonPlaceholders;
 import com.virginmoney.uk.utils.worddocument.WordDocumentReader;
 import com.virginmoney.uk.utils.worddocument.WordDocumentWriter;
 import org.apache.commons.text.StringSubstitutor;

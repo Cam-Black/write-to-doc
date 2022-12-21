@@ -1,4 +1,4 @@
-package com.virginmoney.uk.utils;
+package com.virginmoney.uk.utils.placeholders;
 
 import com.virginmoney.uk.entity.Person;
 
