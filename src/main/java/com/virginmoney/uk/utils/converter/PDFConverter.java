@@ -19,20 +19,16 @@ public class PDFConverter {
         DOC = new Document("output.docx");
     }
 
-    public PDFConverter(Document doc) {
+    public PDFConverter(Document docToConvert) {
         super();
-        DOC = doc;
+        DOC = docToConvert;
     }
 
 
-    public void convertWordToPDF(String output) {
-        try (OutputStream out = Files.newOutputStream(Paths.get(output))) {
-            LOGGER.info("Converting to PDF...");
-            DOC.saveToFile(out, FileFormat.PDF);
-            LOGGER.info("Conversion complete.");
-        } catch (IOException e) {
-            LOGGER.error(e);
-            LOGGER.error("Conversion failed. Please check file paths are correct and not empty and input is .docx and output is .pdf format.");
-        }
+    public void convertWordToPDF(String output) throws IOException {
+        OutputStream out = Files.newOutputStream(Paths.get(output));
+        LOGGER.info("Converting to PDF...");
+        DOC.saveToFile(out, FileFormat.PDF);
+        LOGGER.info("Conversion complete.");
     }
 }
